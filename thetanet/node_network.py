@@ -24,7 +24,7 @@ def dynamical_equation(t, y, d_n, n, kappa, k_mean, A, eta):
         Normalisation from pulse function
     n : int
         Sharpness parameter
-    kappa : float
+    kappa : float or 2D ndarray
         Coupling constant
     k_mean: float
         Mean degree.
@@ -41,7 +41,7 @@ def dynamical_equation(t, y, d_n, n, kappa, k_mean, A, eta):
 
     P = d_n * (1-np.cos(y))**n
     I = A.dot(P) / k_mean
-    dydt = 1-np.cos(y) + (1+np.cos(y))*(eta+kappa*I)
+    dydt = 1-np.cos(y) + (1+np.cos(y))*(eta+kappa.dot(I))
 
     return dydt
 
@@ -53,7 +53,7 @@ def integrate(pm, init=None, console_output=True):
     ----------
     pm : parameter.py
         Parameter file.
-    init : ndarray, 1D float
+    init : ndarray, 1D float or None
         Initial conditions.
     console_output: bool
         Whether or not to print details to the console.
